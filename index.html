@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style></style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div>
+      <form
+        onsubmit="handleSubmit(event)"
+        id="registerForm"
+        style="display: flex; flex-direction: column"
+      >
+        <div class="formdetail">
+          <h2>Đăng kí</h2>
+          <h5>
+            Vui lòng nhập thông tin để đăng ký và sử dụng dịch vụ trên nền tảng
+            Homeee
+          </h5>
+
+          <div class="inputfullname">
+            <div id="sureNameBlock">
+              <label for="surname">Họ <span class="start">*</span></label>
+              <input
+                id="surname"
+                onblur="handleCheck(event, 'sureNameBlock', 'surnameRemove')"
+                type="text"
+                placeholder="Nhập họ của bạn"
+              />
+
+              <img class="icon" src="./user-svgrepo-com.svg" />
+            </div>
+            <div id="nameBlock">
+              <label for="name">Tên<span class="start">*</span></label>
+              <input
+                id="name"
+                onblur="handleCheck(event, 'nameBlock', 'nameRemove')"
+                type="text"
+                placeholder="Nhập tên của bạn"
+              />
+              <img class="icon" src="./add-user-2-svgrepo-com.svg" />
+            </div>
+          </div>
+
+          <div class="inputremain-Icon" id="emailBlock">
+            <label for="email">Email<span class="start">*</span></label>
+            <input
+              id="email"
+              onblur="handleCheck(event, 'emailBlock', 'emailRemove')"
+              type="text"
+              placeholder="Nhập email của bạn"
+            />
+            <img class="icon" src="./email-open-svgrepo-com.svg" />
+          </div>
+
+          <div class="inputremain-Icon" id="phoneNumberBlock">
+            <label for="phone">Số điện thoại<span class="start">*</span></label>
+            <input
+              id="phone"
+              onblur="handleCheck(event, 'phoneNumberBlock', 'phoneNumberRemove')"
+              type="text"
+              placeholder="Nhập số điện thoại"
+            />
+            <img class="icon" src="./phone-call-svgrepo-com.svg" />
+          </div>
+
+          <div class="inputremain-Icon" id="passwordBlock">
+            <img class="icon" src="./key-svgrepo-com.svg" />
+            <label for="password">Mật khẩu<span class="start">*</span></label>
+            <input
+              id="password"
+              onblur="handleCheck(event, 'passwordBlock', 'passwordRemove')"
+              type="password"
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+
+          <div class="conditionemail">
+            <img id="chieudaimkTick" src="./tick-svgrepo-com.svg" />
+            <span id="chieudaimk">Mật khẩu chứa ít nhất 8 ký tự</span>
+            <img id="kytusoTick" src="./tick-svgrepo-com.svg" />
+            <span id="kytuso">Bao gồm ký tự số</span>
+          </div>
+          <div class="conditionemail">
+            <img id="kytuchuTick" src="./tick-svgrepo-com.svg" />
+            <span id="kytuchu">Bao gồm ký tự viết hoa và viết thường </span>
+            <img id="kytudacbietTick" src="./tick-svgrepo-com.svg" />
+            <span id="kytudacbiet">Bao gồm ký tự đặc biệt</span>
+          </div>
+
+          <div class="inputremain-Icon" id="confirmPasswordBlock">
+            <img class="icon" src="./key-svgrepo-com.svg" />
+            <label for="confirmPassword"
+              >Nhập lại mật khẩu<span class="start">*</span></label
+            >
+            <input
+              id="confirmPassword"
+              onblur="handleCheck(event, 'confirmPasswordBlock', 'confimPasswordRemove')"
+              type="password"
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+
+          <button class="buttonsubmit" type="submit">ĐĂNG KÍ</button>
+          <div id="policy">
+            <p>
+              Bằng việc đăng ký, bạn đã đồng ý với Homeee về
+              <span>điều khoản dịch vụ </span>&<span>chính sách bảo mật</span>
+            </p>
+          </div>
+          <div id="login">
+            <p>Bạn đã có tài khoản ? <span>Đăng nhập</span></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    let isError = true; //giả sử có lỗi
+
+    function handleCheck(event, idParent, idChild) {
+      const childIdRemove = document.getElementById(idChild);
+      const parentIdBlock = document.getElementById(idParent);
+      const childIdRemoveAgain = document.getElementById("childIdRemoveAgain");
+
+      if (event.target.value.trim() === "") {
+        const newElement = document.createElement("p");
+        newElement.innerHTML = "Vui lòng nhập lại";
+        newElement.setAttribute("id", "childIdRemoveAgain");
+        newElement.style.color = "red";
+        if (!childIdRemoveAgain && !childIdRemove) {
+          parentIdBlock.appendChild(newElement);
+          console.log("Thêm thẻ childidremoves");
+        }
+      } else {
+        if (childIdRemove) {
+          parentIdBlock.removeChild(childIdRemove);
+        }
+        if (childIdRemoveAgain) {
+          parentIdBlock.removeChild(childIdRemoveAgain);
+        }
+        console.log("Xóa thẻ childremove");
+      }
+    }
+
+    const passwordElement = document.getElementById("password");
+
+    var checkpassword = true; // passwor đúng
+    // check least 8
+
+    const tickWith = document.getElementById("chieudaimkTick");
+    const checkLengthPassword = document.getElementById("chieudaimk");
+    passwordElement.addEventListener("input", function () {
+      const passwordInput = this.value;
+      const hasLengthAtLeast8 = passwordInput.length >= 8;
+      if (hasLengthAtLeast8) {
+        checkLengthPassword.style.color = "green";
+        tickWith.src = "tick-svgrepo-comxanh.svg";
+        isError = false;
+        checkpassword = true;
+      } else {
+        checkLengthPassword.style.color = "white";
+        tickWith.src = "tick-svgrepo-com.svg";
+        isError = true;
+        checkpassword = false;
+      }
+    });
+
+    // check số
+
+    const tickNumber = document.getElementById("kytusoTick");
+    const checkNumber = document.getElementById("kytuso");
+
+    passwordElement.addEventListener("input", function () {
+      console.log("Phần kiểm tra số");
+      const passwordInputNumber = this.value;
+      const hasNumber = /\d/.test(passwordInputNumber);
+
+      if (hasNumber) {
+        checkNumber.style.color = "green";
+        tickNumber.src = "tick-svgrepo-comxanh.svg";
+        isError = false;
+        checkpassword = true;
+      } else {
+        checkNumber.style.color = "white";
+        tickNumber.src = "tick-svgrepo-com.svg";
+        isError = true;
+        checkpassword = false;
+      }
+      return;
+    });
+
+    // check chữ
+    const tickLetter = document.getElementById("kytuchuTick");
+    const checkLetter = document.getElementById("kytuchu");
+
+    passwordElement.addEventListener("input", function () {
+      console.log("Phần kiểm tra chữ");
+
+      const passwordInputLetter = this.value;
+      const hasLowerCase = /[a-z]/.test(passwordInputLetter);
+      const hasUpperCase = /[A-Z]/.test(passwordInputLetter);
+
+      if (hasLowerCase || hasUpperCase) {
+        checkLetter.style.color = "green";
+        console.log("Chữ màu xanh nha");
+        tickLetter.src = "tick-svgrepo-comxanh.svg";
+        isError = false;
+        checkpassword = true;
+      } else {
+        checkLetter.style.color = "white";
+        tickLetter.src = "tick-svgrepo-com.svg";
+        isError = true;
+        checkpassword = false;
+      }
+    });
+
+    // check ký tự đặc biệt
+    const tickSpecialChar = document.getElementById("kytudacbietTick");
+    const checkSpecialChar = document.getElementById("kytudacbiet");
+    passwordElement.addEventListener("input", function () {
+      console.log("Kiểm tra ký tự đặc biệt");
+
+      const passwordInputSpecialChar = this.value;
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(
+        passwordInputSpecialChar
+      );
+
+      if (hasSpecialChar) {
+        checkSpecialChar.style.color = "green";
+        tickSpecialChar.src = "tick-svgrepo-comxanh.svg";
+        isError = false;
+        checkpassword = true;
+      } else {
+        checkSpecialChar.style.color = "white";
+        tickSpecialChar.src = "tick-svgrepo-com.svg";
+        isError = true;
+        checkpassword = false;
+      }
+    });
+
+    function checkPassword(event) {
+      if (!checkpassword) {
+        alert("Password cần đủ tất cả điều kiện yêu cầu");
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      // khai báo
+
+      const surnameElement = document.getElementById("surname");
+      const nameElement = document.getElementById("name");
+      const emailElement = document.getElementById("email");
+      const phoneNumberElement = document.getElementById("phone");
+      const passwordElement = document.getElementById("password");
+      const ConfirmPasswordElement = document.getElementById("confirmPassword");
+
+      // không nhập họ
+      const sureNameBlockElement = document.getElementById("sureNameBlock");
+
+      if (surnameElement.value.trim() === "") {
+        console.log("noti đièu kiện", Notification);
+        const newSureNameElement = document.createElement("p");
+        newSureNameElement.setAttribute("id", "surnameRemove");
+        newSureNameElement.innerHTML = "Vui lòng nhập họ";
+        newSureNameElement.style.color = "red";
+
+        console.log("Thêm Họ");
+        if (!document.getElementById("surnameRemove"))
+          sureNameBlockElement.appendChild(newSureNameElement);
+        isError = true;
+      } else isError = false;
+
+      console.log(isError);
+      // không nhập tên
+
+      const nameBlockElement = document.getElementById("nameBlock");
+
+      if (nameElement.value.trim() === "") {
+        console.log("noti đièu kiện", Notification);
+        const newNameElement = document.createElement("p");
+        newNameElement.setAttribute("id", "nam`  eRemove");
+        newNameElement.innerHTML = "Vui lòng nhập tên";
+        newNameElement.style.color = "red";
+
+        console.log("Thêm Tên");
+        if (!document.getElementById("nameRemove"))
+          nameBlockElement.appendChild(newNameElement);
+        isError = true;
+      } else isError = false;
+
+      console.log(isError);
+
+      // không nhập email
+      const emailBlockElement = document.getElementById("emailBlock");
+      if (emailElement.value.trim() === "") {
+        const newEmailElement = document.createElement("p");
+        newEmailElement.setAttribute("id", "emailRemove");
+        newEmailElement.innerHTML = "Vui lòng nhập email";
+        newEmailElement.style.color = "red";
+
+        console.log("Thêm Email");
+        if (!document.getElementById("emailRemove"))
+          emailBlockElement.appendChild(newEmailElement);
+        isError = true;
+      } else {
+        isError = false;
+      }
+
+      // không nhập password
+      const passwordBlockElement = document.getElementById("passwordBlock");
+      if (passwordElement.value.trim() === "") {
+        const newPasswordElement = document.createElement("p");
+        newPasswordElement.setAttribute("id", "passwordRemove");
+        newPasswordElement.innerHTML = "Vui lòng nhập password";
+        newPasswordElement.style.color = "red";
+
+        console.log("Thêm Password");
+        if (!document.getElementById("passwordRemove"))
+          passwordBlockElement.appendChild(newPasswordElement);
+        isError = true;
+      } else {
+        isError = false;
+      }
+
+      // không nhập confirmPassword
+      const confirmPasswordBlockElement = document.getElementById(
+        "confirmPasswordBlock"
+      );
+
+      if (ConfirmPasswordElement.value.trim() === "") {
+        const newPasswordConfirmElement = document.createElement("p");
+        newPasswordConfirmElement.innerHTML = "Vui lòng nhập mật khẩu";
+        newPasswordConfirmElement.style.color = "red";
+        newPasswordConfirmElement.setAttribute("id", "confimPasswordRemove");
+        if (!document.getElementById("confimPasswordRemove"))
+          confirmPasswordBlockElement.appendChild(newPasswordConfirmElement);
+        console.log("mat khẩu nhập r");
+        isError = true;
+      } else {
+        isError = false;
+      }
+
+      //10 số điện thoại
+
+      const phoneNumberBlockElement =
+        document.getElementById("phoneNumberBlock");
+      if (phoneNumberElement.value.trim().length === 0) {
+        const newPhoneElement = document.createElement("p");
+        newPhoneElement.setAttribute("id", "phoneNumberRemove");
+        newPhoneElement.innerHTML = "Vui lòng nhập số điện thoại";
+        newPhoneElement.style.color = "red";
+
+        console.log(phoneNumberElement.value.length);
+        if (!document.getElementById("phoneNumberRemove"))
+          phoneNumberBlockElement.appendChild(newPhoneElement);
+        isError = false;
+      } else if (phoneNumberElement.value.length !== 10) {
+        const newPhone10Element = document.createElement("p");
+        newPhone10Element.innerHTML = "số điện thoại phải có 10 chữ số!";
+        newPhone10Element.style.color = "red";
+        newPhone10Element.setAttribute("id", "phoneNumberRemove");
+        console.log(phoneNumberElement.value.length);
+        if (!document.getElementById("phoneNumberRemove"))
+          phoneNumberBlockElement.appendChild(newPhone10Element);
+        console.log("mk chư du 10 ky tu ");
+        isError = false;
+      } else {
+        isError = true;
+      }
+
+      // Check confirm password với password
+
+      if (
+        passwordElement.value.trim() === ConfirmPasswordElement.value.trim() &&
+        passwordElement.value.trim() !== ""
+      ) {
+        isError = true;
+        console.log("MK đúng rồi ");
+      } else {
+        const newPasswordElement = document.createElement("p");
+
+        newPasswordElement.innerHTML = "Nhập lại mật khẩu không đúng!";
+        newPasswordElement.style.color = "red";
+        newPasswordElement.setAttribute("id", "confimPasswordRemove");
+        if (!document.getElementById("confimPasswordRemove"))
+          confirmPasswordBlockElement.appendChild(newPasswordElement);
+        isError = false;
+      }
+
+      if (isError && checkPassword()) {
+        // có lỗi thì không submit
+        alert("Submit thành công ");
+      } else return; // không lỗi thì submit
+    }
+  </script>
+</html>
